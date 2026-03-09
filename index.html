@@ -3,35 +3,480 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola Mundo</title>
+    <title>Kasane Teto & Hatsune Miku</title>
     <style>
-        body {
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+
+        * {
             margin: 0;
-            height: 100vh;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #0d1b3e 50%, #1a0a2e 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Notas musicales flotantes */
+        .notes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .note {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.15;
+            animation: flotar 8s linear infinite;
+        }
+
+        .note:nth-child(odd) { color: #39c5bb; }
+        .note:nth-child(even) { color: #d5253e; }
+
+        .note:nth-child(1) { left: 5%; animation-delay: 0s; animation-duration: 10s; }
+        .note:nth-child(2) { left: 15%; animation-delay: 1.5s; animation-duration: 8s; }
+        .note:nth-child(3) { left: 25%; animation-delay: 3s; animation-duration: 12s; }
+        .note:nth-child(4) { left: 38%; animation-delay: 0.5s; animation-duration: 9s; }
+        .note:nth-child(5) { left: 50%; animation-delay: 2s; animation-duration: 11s; }
+        .note:nth-child(6) { left: 62%; animation-delay: 4s; animation-duration: 7s; }
+        .note:nth-child(7) { left: 75%; animation-delay: 1s; animation-duration: 10s; }
+        .note:nth-child(8) { left: 88%; animation-delay: 3.5s; animation-duration: 9s; }
+
+        @keyframes flotar {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #d5253e, #ff7eb3, #39c5bb, #7fefef);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradiente 4s ease infinite;
+        }
+
+        @keyframes gradiente {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        header p {
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+            opacity: 0.7;
+            letter-spacing: 2px;
+        }
+
+        /* Main content */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Cards */
+        .card {
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            border-radius: 50%;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        /* Miku */
+        .card-miku {
+            background: linear-gradient(145deg, rgba(57,197,187,0.15), rgba(57,197,187,0.05));
+            border: 1px solid rgba(57,197,187,0.3);
+            box-shadow: 0 0 30px rgba(57,197,187,0.1);
+        }
+
+        .card-miku:hover {
+            box-shadow: 0 10px 40px rgba(57,197,187,0.25);
+        }
+
+        .card-miku::before {
+            background: radial-gradient(circle, #39c5bb, transparent);
+        }
+
+        .card-miku .icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: pulso-miku 2s ease-in-out infinite;
+        }
+
+        @keyframes pulso-miku {
+            0%, 100% { text-shadow: 0 0 10px rgba(57,197,187,0.5); }
+            50% { text-shadow: 0 0 30px rgba(57,197,187,0.9), 0 0 60px rgba(57,197,187,0.4); }
+        }
+
+        .card-miku h2 {
+            color: #39c5bb;
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-miku .tag {
+            background: rgba(57,197,187,0.2);
+            border: 1px solid rgba(57,197,187,0.4);
+            color: #7fefef;
+        }
+
+        /* Teto */
+        .card-teto {
+            background: linear-gradient(145deg, rgba(213,37,62,0.15), rgba(213,37,62,0.05));
+            border: 1px solid rgba(213,37,62,0.3);
+            box-shadow: 0 0 30px rgba(213,37,62,0.1);
+        }
+
+        .card-teto:hover {
+            box-shadow: 0 10px 40px rgba(213,37,62,0.25);
+        }
+
+        .card-teto::before {
+            background: radial-gradient(circle, #d5253e, transparent);
+        }
+
+        .card-teto .icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: pulso-teto 2s ease-in-out infinite;
+        }
+
+        @keyframes pulso-teto {
+            0%, 100% { text-shadow: 0 0 10px rgba(213,37,62,0.5); }
+            50% { text-shadow: 0 0 30px rgba(213,37,62,0.9), 0 0 60px rgba(213,37,62,0.4); }
+        }
+
+        .card-teto h2 {
+            color: #d5253e;
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-teto .tag {
+            background: rgba(213,37,62,0.2);
+            border: 1px solid rgba(213,37,62,0.4);
+            color: #ff9aab;
+        }
+
+        /* Card content */
+        .card p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            opacity: 0.85;
+            margin-bottom: 1.2rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Stats */
+        .stats {
             display: flex;
             justify-content: center;
-            align-items: center;
-            background-color: #111;
+            gap: 2rem;
+            margin: 1rem 0;
         }
 
-        h1 {
-            font-size: 4rem;
-            font-family: Arial, sans-serif;
-            animation: arcoiris 3s linear infinite;
+        .stat {
+            text-align: center;
         }
 
-        @keyframes arcoiris {
-            0%   { color: red; }
-            16%  { color: orange; }
-            33%  { color: yellow; }
-            50%  { color: green; }
-            66%  { color: blue; }
-            83%  { color: indigo; }
-            100% { color: red; }
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .card-miku .stat-value { color: #39c5bb; }
+        .card-teto .stat-value { color: #d5253e; }
+
+        .stat-label {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Sección compartida */
+        .shared-section {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto 3rem;
+            padding: 0 1.5rem;
+        }
+
+        .shared-card {
+            background: linear-gradient(145deg, rgba(213,37,62,0.1), rgba(57,197,187,0.1));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .shared-card h2 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #d5253e, #39c5bb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .shared-card p {
+            opacity: 0.8;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .songs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .song {
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: default;
+            transition: transform 0.2s;
+        }
+
+        .song:hover {
+            transform: scale(1.05);
+        }
+
+        .song-miku {
+            background: rgba(57,197,187,0.15);
+            border: 1px solid rgba(57,197,187,0.3);
+            color: #7fefef;
+        }
+
+        .song-teto {
+            background: rgba(213,37,62,0.15);
+            border: 1px solid rgba(213,37,62,0.3);
+            color: #ff9aab;
+        }
+
+        .song-duo {
+            background: linear-gradient(90deg, rgba(213,37,62,0.2), rgba(57,197,187,0.2));
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+        }
+
+        /* Divider */
+        .divider {
+            width: 80px;
+            height: 3px;
+            margin: 1rem auto;
+            border-radius: 3px;
+        }
+
+        .card-miku .divider { background: linear-gradient(90deg, transparent, #39c5bb, transparent); }
+        .card-teto .divider { background: linear-gradient(90deg, transparent, #d5253e, transparent); }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.4;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 2rem 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Hola Mundo</h1>
+
+    <!-- Notas musicales de fondo -->
+    <div class="notes">
+        <span class="note">&#9835;</span>
+        <span class="note">&#9834;</span>
+        <span class="note">&#9833;</span>
+        <span class="note">&#9835;</span>
+        <span class="note">&#9834;</span>
+        <span class="note">&#9833;</span>
+        <span class="note">&#9835;</span>
+        <span class="note">&#9834;</span>
+    </div>
+
+    <header>
+        <h1>&#9835; Hatsune Miku &amp; Kasane Teto &#9835;</h1>
+        <p>Las voces del futuro digital</p>
+    </header>
+
+    <div class="container">
+        <!-- Card Hatsune Miku -->
+        <div class="card card-miku">
+            <span class="icon">&#127908;</span>
+            <h2>Hatsune Miku</h2>
+            <div class="divider"></div>
+            <p>
+                La idol virtual más famosa del mundo. Creada por Crypton Future Media en 2007,
+                Miku se convirtió en un fenómeno global con su voz sintetizada y su icónico
+                cabello turquesa en coletas largas.
+            </p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">2007</div>
+                    <div class="stat-label">Debut</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">16</div>
+                    <div class="stat-label">Edad</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">158cm</div>
+                    <div class="stat-label">Altura</div>
+                </div>
+            </div>
+            <div class="tags">
+                <span class="tag">Vocaloid</span>
+                <span class="tag">Crypton</span>
+                <span class="tag">Turquesa</span>
+                <span class="tag">Coletas</span>
+                <span class="tag">Idol Virtual</span>
+            </div>
+        </div>
+
+        <!-- Card Kasane Teto -->
+        <div class="card card-teto">
+            <span class="icon">&#127926;</span>
+            <h2>Kasane Teto</h2>
+            <div class="divider"></div>
+            <p>
+                Nacida como una broma de April Fools en 2008, Teto se ganó el corazón de todos.
+                Originalmente una voz UTAU, fue adoptada oficialmente como SynthV.
+                Su look con drill twintails rojos es inconfundible.
+            </p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">2008</div>
+                    <div class="stat-label">Debut</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">31</div>
+                    <div class="stat-label">Edad</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">159.5cm</div>
+                    <div class="stat-label">Altura</div>
+                </div>
+            </div>
+            <div class="tags">
+                <span class="tag">UTAU</span>
+                <span class="tag">SynthV</span>
+                <span class="tag">Rojo</span>
+                <span class="tag">Drill Hair</span>
+                <span class="tag">Pan Francés</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de canciones -->
+    <div class="shared-section">
+        <div class="shared-card">
+            <h2>&#9825; Canciones Destacadas &#9825;</h2>
+            <p>Algunas de las canciones más queridas por los fans de ambas artistas virtuales.</p>
+            <div class="songs">
+                <span class="song song-miku">World is Mine</span>
+                <span class="song song-miku">Melt</span>
+                <span class="song song-miku">Love is War</span>
+                <span class="song song-teto">Teto Territory</span>
+                <span class="song song-teto">Kasane Road</span>
+                <span class="song song-teto">Fukkireta</span>
+                <span class="song song-miku">Senbonzakura</span>
+                <span class="song song-duo">Ievan Polkka</span>
+                <span class="song song-miku">Rolling Girl</span>
+                <span class="song song-teto">Yoshiwara Lament</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Hecho con &#9829; para los fans de la música virtual
+    </footer>
+
 </body>
 </html>
